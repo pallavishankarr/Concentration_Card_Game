@@ -27,6 +27,11 @@ class Card {
     this.isFaceUp = !this.isFaceUp;
   }
 
+  // checks if two cards are a match based on rank and suit
+  boolean isMatch(Card other) {
+    return this.rank.equals(other.rank) && this.suit.equals(other.suit);
+  }
+
   // displays a card based on whether it is face up, face down, or matched
   WorldImage display() {
     if (this.isMatched) {
@@ -146,7 +151,7 @@ class Board extends World {
         // calculate x and y position of card
         int xPosition = startX + j * (cardWidth + xSpacing);
         int yPosition = startY + i * (cardHeight + ySpacing);
-        
+
         scene.placeImageXY(card.display(), xPosition, yPosition);
       }
     }
@@ -188,7 +193,7 @@ class Board extends World {
 
           // checks if cards match, if they don't flip them back 
           if (this.firstCard != null && this.secondCard != null) {
-            if (this.firstCard.value != this.secondCard.value) {
+            if (!this.firstCard.isMatch(this.secondCard)) {
               this.firstCard.flip();
               this.secondCard.flip();
             }
@@ -237,7 +242,7 @@ class Board extends World {
     int rowCount = 4;     
     int columnCount = 13; 
     int index = 0;
-    
+
     for (int i = 0; i < rowCount; i++) {
       ArrayList<Card> row = new ArrayList<>();
       for (int j = 0; j < columnCount; j++) {
@@ -268,23 +273,23 @@ class ExamplesCard {
     board.bigBang(1200, 600, 0.1);
   }
 
-//  public void testCardFlipping(Tester t) {
-//    Card card = new Card("A", "♠", 1);
-//    t.checkExpect(card.isFaceUp, false); 
-//    card.flip();
-//    t.checkExpect(card.isFaceUp, true); 
-//  }
-//
-//  public void testDeckShuffle(Tester t) {
-//    Deck deck = new Deck();
-//    ArrayList<Card> originalDeck = new ArrayList<>(deck.cards);
-//    deck.shuffleDeck();
-//
-//    t.checkExpect(originalDeck.equals(deck.cards), false);
-//  }
-//
-//  public static void main(String[] args) {
-//    runExample();
-//  }
-  
+  //  public void testCardFlipping(Tester t) {
+  //    Card card = new Card("A", "♠", 1);
+  //    t.checkExpect(card.isFaceUp, false); 
+  //    card.flip();
+  //    t.checkExpect(card.isFaceUp, true); 
+  //  }
+  //
+  //  public void testDeckShuffle(Tester t) {
+  //    Deck deck = new Deck();
+  //    ArrayList<Card> originalDeck = new ArrayList<>(deck.cards);
+  //    deck.shuffleDeck();
+  //
+  //    t.checkExpect(originalDeck.equals(deck.cards), false);
+  //  }
+  //
+  //  public static void main(String[] args) {
+  //    runExample();
+  //  }
+
 }
