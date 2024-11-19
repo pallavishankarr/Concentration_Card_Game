@@ -32,20 +32,29 @@ class Card {
     if (this.isMatched) {
       return new RectangleImage(50, 70, OutlineMode.SOLID, Color.pink);
     } 
-    
+
     else if (this.isFaceUp) {
       // card is face up, shows content
       WorldImage background = new RectangleImage(50, 70, OutlineMode.SOLID, Color.white);
       WorldImage outline = new RectangleImage(52, 72, OutlineMode.OUTLINE, Color.black);
-      WorldImage content = new TextImage(this.rank + this.suit, 20, Color.black);
-      // background and outline
-      return content.overlayImages(background).overlayImages(outline);
-    } 
-    
-    else {
-      // card is face down
-      return new RectangleImage(50, 70, OutlineMode.SOLID, Color.gray);
+
+      // ENHANCEMENT: sets the red suits red
+      if (this.suit.equals("♥") || this.suit.equals("♦")) {
+        // heart and diamond is red
+        return new TextImage(this.rank + this.suit, 20, Color.red)
+            .overlayImages(background).overlayImages(outline);
+      } 
+
+      else {
+        // club and spade is black
+        return new TextImage(this.rank + this.suit, 20, Color.black)
+            .overlayImages(background).overlayImages(outline);
+      }
     }
+
+    // card is face down
+    return new RectangleImage(50, 70, OutlineMode.SOLID, Color.gray);
+
   }
 }
 
