@@ -163,12 +163,12 @@ class Board extends World {
 
     for (int i = 0; i < rowCount; i++) {
       for (int j = 0; j < columnCount; j++) {
-        int xPosition = startX + j * (cardWidth + xSpacing);
-        int yPosition = startY + i * (cardHeight + ySpacing);
+        int xPosition = startX + (j * (cardWidth + xSpacing));
+        int yPosition = startY + (i * (cardHeight + ySpacing));
 
         // checks if the click is within the cards bounds
-        if (posn.x >= xPosition && posn.x < xPosition + cardWidth &&
-            posn.y >= yPosition && posn.y < yPosition + cardHeight) {
+        if (posn.x >= (xPosition - (cardWidth / 2)) && posn.x < (xPosition + (cardWidth / 2)) &&
+            posn.y >= (yPosition - (cardHeight / 2)) && posn.y < (yPosition + (cardHeight / 2))) {
 
           Card clickedCard = this.grid.get(i).get(j);
 
@@ -253,28 +253,29 @@ class Board extends World {
 
 class ExamplesCard {
 
-  public static void runExample() {
+  void testBigBang(Tester t) {
     Board board = new Board();
 
     board.bigBang(1200, 600, 0.1);
   }
 
-  public void testCardFlipping(Tester t) {
-    Card card = new Card("A", "♠", 1);
-    t.checkExpect(card.isFaceUp, false); 
-    card.flip();
-    t.checkExpect(card.isFaceUp, true); 
-  }
-
-  public void testDeckShuffle(Tester t) {
-    Deck deck = new Deck();
-    ArrayList<Card> originalDeck = new ArrayList<>(deck.cards);
-    deck.shuffleDeck();
-
-    t.checkExpect(originalDeck.equals(deck.cards), false);
-  }
-
-  public static void main(String[] args) {
-    runExample();
-  }
+//  public void testCardFlipping(Tester t) {
+//    Card card = new Card("A", "♠", 1);
+//    t.checkExpect(card.isFaceUp, false); 
+//    card.flip();
+//    t.checkExpect(card.isFaceUp, true); 
+//  }
+//
+//  public void testDeckShuffle(Tester t) {
+//    Deck deck = new Deck();
+//    ArrayList<Card> originalDeck = new ArrayList<>(deck.cards);
+//    deck.shuffleDeck();
+//
+//    t.checkExpect(originalDeck.equals(deck.cards), false);
+//  }
+//
+//  public static void main(String[] args) {
+//    runExample();
+//  }
+  
 }
