@@ -323,44 +323,62 @@ class ExamplesCard {
 
     board.bigBang(1200, 600, 0.1);
   }
-  
-// test the isMatch based on color and rank 
-void testIsMatch(Tester t) {
-  initData();
 
-  // cards for testing
-  Card redAce1 = new Card("A", "♥", 1);  
-  Card redAce2 = new Card("A", "♦", 1);  
-  Card redTwo = new Card("2", "♥", 2);   
-  Card blackAce1 = new Card("A", "♠", 1); 
-  Card blackAce2 = new Card("A", "♣", 1); 
-  Card blackTwo = new Card("2", "♠", 2);  
-  Card redKing = new Card("K", "♦", 3);   
-  Card blackKing = new Card("K", "♠", 3); 
+  // test the isMatch based on color and rank 
+  void testIsMatch(Tester t) {
+    initData();
 
-  
-  // same rank and color group
-  t.checkExpect(redAce1.isMatch(redAce2), true); 
-  t.checkExpect(blackAce1.isMatch(blackAce2), true); 
-
-  // different rank, same color group
-  t.checkExpect(redAce1.isMatch(redTwo), false); 
-  t.checkExpect(blackAce1.isMatch(blackTwo), false); 
-  
-  // same rank, different color group
-  t.checkExpect(redAce1.isMatch(blackAce1), false); 
-  t.checkExpect(redTwo.isMatch(blackTwo), false);
-
-  // different rank, different color group
-  t.checkExpect(redAce1.isMatch(blackKing), false); 
-  t.checkExpect(blackTwo.isMatch(redKing), false); 
-
-  // same card comparison
-  t.checkExpect(redAce1.isMatch(redAce1), true); 
-  t.checkExpect(blackTwo.isMatch(blackTwo), true); 
-}
+    // cards for testing
+    Card redAce1 = new Card("A", "♥", 1);  
+    Card redAce2 = new Card("A", "♦", 1);  
+    Card redTwo = new Card("2", "♥", 2);   
+    Card blackAce1 = new Card("A", "♠", 1); 
+    Card blackAce2 = new Card("A", "♣", 1); 
+    Card blackTwo = new Card("2", "♠", 2);  
+    Card redKing = new Card("K", "♦", 3);   
+    Card blackKing = new Card("K", "♠", 3); 
 
 
+    // same rank and color group
+    t.checkExpect(redAce1.isMatch(redAce2), true); 
+    t.checkExpect(blackAce1.isMatch(blackAce2), true); 
+
+    // different rank, same color group
+    t.checkExpect(redAce1.isMatch(redTwo), false); 
+    t.checkExpect(blackAce1.isMatch(blackTwo), false); 
+
+    // same rank, different color group
+    t.checkExpect(redAce1.isMatch(blackAce1), false); 
+    t.checkExpect(redTwo.isMatch(blackTwo), false);
+
+    // different rank, different color group
+    t.checkExpect(redAce1.isMatch(blackKing), false); 
+    t.checkExpect(blackTwo.isMatch(redKing), false); 
+
+    // same card comparison
+    t.checkExpect(redAce1.isMatch(redAce1), true); 
+    t.checkExpect(blackTwo.isMatch(blackTwo), true); 
+  }
+
+  // test card display
+  void testDisplay(Tester t) {
+    initData();
+
+    // face-down card display
+    t.checkExpect(
+        faceDown.display(),
+        new RectangleImage(50, 70, OutlineMode.SOLID, Color.gray));
+
+    // face-up card display with a red suit (♥)
+    t.checkExpect(
+        redFaceUp.display(),
+        new OverlayImage(
+            new OverlayImage(
+                new TextImage("A♥", 20, Color.red),
+                new RectangleImage(50, 70, OutlineMode.SOLID, Color.white)
+                ),
+            new RectangleImage(52, 72, OutlineMode.OUTLINE, Color.black)));
+  }
 
 
 }
