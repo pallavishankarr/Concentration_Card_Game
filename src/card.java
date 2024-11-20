@@ -282,6 +282,33 @@ class ExamplesCard {
     testBoard = new Board();
   }
   
+  // test card flipping method
+  void testCardFlipping(Tester t) {
+    initData();
+
+    // flipping a face-down card
+    t.checkExpect(faceDown.isFaceUp, false);
+    faceDown.flip();
+    t.checkExpect(faceDown.isFaceUp, true);
+
+    // flipping a face-up card
+    redFaceUp.flip();
+    t.checkExpect(redFaceUp.isFaceUp, false);
+
+    // flipping the same card multiple times
+    redFaceUp.flip(); // back to face-up
+    t.checkExpect(redFaceUp.isFaceUp, true);
+    redFaceUp.flip(); // back to face-down
+    t.checkExpect(redFaceUp.isFaceUp, false);
+
+    // flipping a matched card 
+    redFaceUp.isMatched = true;
+    redFaceUp.flip();
+    t.checkExpect(redFaceUp.isFaceUp, true); 
+    t.checkExpect(redFaceUp.isMatched, true); 
+
+  }
+  
   void testBigBang(Tester t) {
     Board board = new Board();
 
