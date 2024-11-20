@@ -29,14 +29,14 @@ class Card {
 
   //ENHANCEMENT: checks if two cards are a match based on rank and color
   boolean isMatch(Card other) {
-    // Check if both cards are red suits and have the same rank
+    // check if both cards are red suits and have the same rank
     if ((this.suit.equals("♥") || this.suit.equals("♦")) &&
         (other.suit.equals("♥") || other.suit.equals("♦")) &&
         this.rank.equals(other.rank)) {
       return true;
     }
 
-    // Check if both cards are black suits and have the same rank
+    // check if both cards are black suits and have the same rank
     return (this.suit.equals("♠") || this.suit.equals("♣")) &&
         (other.suit.equals("♠") || other.suit.equals("♣")) &&
         this.rank.equals(other.rank);
@@ -323,6 +323,42 @@ class ExamplesCard {
 
     board.bigBang(1200, 600, 0.1);
   }
+  
+// test the isMatch based on color and rank 
+void testIsMatch(Tester t) {
+  initData();
+
+  // cards for testing
+  Card redAce1 = new Card("A", "♥", 1);  
+  Card redAce2 = new Card("A", "♦", 1);  
+  Card redTwo = new Card("2", "♥", 2);   
+  Card blackAce1 = new Card("A", "♠", 1); 
+  Card blackAce2 = new Card("A", "♣", 1); 
+  Card blackTwo = new Card("2", "♠", 2);  
+  Card redKing = new Card("K", "♦", 3);   
+  Card blackKing = new Card("K", "♠", 3); 
+
+  
+  // same rank and color group
+  t.checkExpect(redAce1.isMatch(redAce2), true); 
+  t.checkExpect(blackAce1.isMatch(blackAce2), true); 
+
+  // different rank, same color group
+  t.checkExpect(redAce1.isMatch(redTwo), false); 
+  t.checkExpect(blackAce1.isMatch(blackTwo), false); 
+  
+  // same rank, different color group
+  t.checkExpect(redAce1.isMatch(blackAce1), false); 
+  t.checkExpect(redTwo.isMatch(blackTwo), false);
+
+  // different rank, different color group
+  t.checkExpect(redAce1.isMatch(blackKing), false); 
+  t.checkExpect(blackTwo.isMatch(redKing), false); 
+
+  // same card comparison
+  t.checkExpect(redAce1.isMatch(redAce1), true); 
+  t.checkExpect(blackTwo.isMatch(blackTwo), true); 
+}
 
 
 
