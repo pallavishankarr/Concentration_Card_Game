@@ -27,7 +27,7 @@ class Card {
     this.isFaceUp = !this.isFaceUp;
   }
 
-  // checks if two cards are a match based on rank and suit
+  // ENHANCEMENT: checks if two cards are a match based on rank and suit
   boolean isMatch(Card other) {
     return this.rank.equals(other.rank) && this.suit.equals(other.suit);
   }
@@ -266,30 +266,29 @@ class Board extends World {
 }
 
 class ExamplesCard {
+  Card redFaceUp;
+  Card faceDown;
+  Deck testDeck;
+  Board testBoard;
 
+  // initialize test data
+  void initData() {
+    redFaceUp = new Card("A", "♥", 1);
+    redFaceUp.flip(); 
+
+    faceDown = new Card("2", "♦", 2);
+
+    testDeck = new Deck();
+    testBoard = new Board();
+  }
+  
   void testBigBang(Tester t) {
     Board board = new Board();
 
     board.bigBang(1200, 600, 0.1);
   }
 
-  //  public void testCardFlipping(Tester t) {
-  //    Card card = new Card("A", "♠", 1);
-  //    t.checkExpect(card.isFaceUp, false); 
-  //    card.flip();
-  //    t.checkExpect(card.isFaceUp, true); 
-  //  }
-  //
-  //  public void testDeckShuffle(Tester t) {
-  //    Deck deck = new Deck();
-  //    ArrayList<Card> originalDeck = new ArrayList<>(deck.cards);
-  //    deck.shuffleDeck();
-  //
-  //    t.checkExpect(originalDeck.equals(deck.cards), false);
-  //  }
-  //
-  //  public static void main(String[] args) {
-  //    runExample();
-  //  }
+
+
 
 }
