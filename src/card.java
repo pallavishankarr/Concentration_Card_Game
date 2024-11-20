@@ -27,9 +27,19 @@ class Card {
     this.isFaceUp = !this.isFaceUp;
   }
 
-  // ENHANCEMENT: checks if two cards are a match based on rank and suit
+  //ENHANCEMENT: checks if two cards are a match based on rank and color
   boolean isMatch(Card other) {
-    return this.rank.equals(other.rank) && this.suit.equals(other.suit);
+    // Check if both cards are red suits and have the same rank
+    if ((this.suit.equals("♥") || this.suit.equals("♦")) &&
+        (other.suit.equals("♥") || other.suit.equals("♦")) &&
+        this.rank.equals(other.rank)) {
+      return true;
+    }
+
+    // Check if both cards are black suits and have the same rank
+    return (this.suit.equals("♠") || this.suit.equals("♣")) &&
+        (other.suit.equals("♠") || other.suit.equals("♣")) &&
+        this.rank.equals(other.rank);
   }
 
   // displays a card based on whether it is face up, face down, or matched
@@ -281,7 +291,7 @@ class ExamplesCard {
     testDeck = new Deck();
     testBoard = new Board();
   }
-  
+
   // test card flipping method
   void testCardFlipping(Tester t) {
     initData();
@@ -306,9 +316,8 @@ class ExamplesCard {
     redFaceUp.flip();
     t.checkExpect(redFaceUp.isFaceUp, true); 
     t.checkExpect(redFaceUp.isMatched, true); 
-
   }
-  
+
   void testBigBang(Tester t) {
     Board board = new Board();
 
