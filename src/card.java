@@ -375,9 +375,26 @@ class ExamplesCard {
         new OverlayImage(
             new OverlayImage(
                 new TextImage("A♥", 20, Color.red),
-                new RectangleImage(50, 70, OutlineMode.SOLID, Color.white)
-                ),
+                new RectangleImage(50, 70, OutlineMode.SOLID, Color.white)),
             new RectangleImage(52, 72, OutlineMode.OUTLINE, Color.black)));
+    
+    // face-up card display with a black suit (♠)
+    Card blackFaceUp = new Card("K", "♠", 13);
+    blackFaceUp.flip(); // Make it face-up
+    t.checkExpect(
+        blackFaceUp.display(),
+        new OverlayImage(
+            new OverlayImage(
+                new TextImage("K♠", 20, Color.black),
+                new RectangleImage(50, 70, OutlineMode.SOLID, Color.white)),
+            new RectangleImage(52, 72, OutlineMode.OUTLINE, Color.black)));
+
+    // matched card display
+    Card matchedCard = new Card("10", "♦", 10);
+    matchedCard.isMatched = true;
+    t.checkExpect(
+        matchedCard.display(),
+        new RectangleImage(50, 70, OutlineMode.SOLID, Color.pink));
   }
 
 
