@@ -396,6 +396,35 @@ class ExamplesCard {
         matchedCard.display(),
         new RectangleImage(50, 70, OutlineMode.SOLID, Color.pink));
   }
+  
+// test for shuffle Deck 
+void testShuffleDeck(Tester t) {
+ // initialize a deck
+ Deck originalDeck = new Deck();
+
+ // save the original order of cards
+ ArrayList<Card> originalOrder = new ArrayList<>(originalDeck.cards);
+
+ // shuffle the deck
+ originalDeck.shuffleDeck();
+
+ // check that the deck has the same cards after shuffling
+ t.checkExpect(originalDeck.cards.size(), originalOrder.size());
+ t.checkExpect(originalDeck.cards.containsAll(originalOrder), true);
+ t.checkExpect(originalOrder.containsAll(originalDeck.cards), true);
+
+ // check that the order of the cards has changed
+ boolean orderChanged = false;
+ for (int i = 0; i < originalDeck.cards.size(); i++) {
+   if (!originalDeck.cards.get(i).equals(originalOrder.get(i))) {
+     orderChanged = true;
+     break;
+   }
+ }
+
+ t.checkExpect(orderChanged, true, "The shuffle method should change the card order.");
+}
+
 
 
 }
