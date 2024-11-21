@@ -377,7 +377,7 @@ class ExamplesCard {
                 new TextImage("A♥", 20, Color.red),
                 new RectangleImage(50, 70, OutlineMode.SOLID, Color.white)),
             new RectangleImage(52, 72, OutlineMode.OUTLINE, Color.black)));
-    
+
     // face-up card display with a black suit (♠)
     Card blackFaceUp = new Card("K", "♠", 13);
     blackFaceUp.flip(); // Make it face-up
@@ -396,35 +396,91 @@ class ExamplesCard {
         matchedCard.display(),
         new RectangleImage(50, 70, OutlineMode.SOLID, Color.pink));
   }
-  
-// test for shuffle Deck 
-void testShuffleDeck(Tester t) {
- // initialize a deck
- Deck originalDeck = new Deck();
 
- // save the original order of cards
- ArrayList<Card> originalOrder = new ArrayList<>(originalDeck.cards);
+  // test for shuffle Deck 
+  void testShuffleDeck(Tester t) {
+    // initialize a deck
+    Deck originalDeck = new Deck();
 
- // shuffle the deck
- originalDeck.shuffleDeck();
+    // save the original order of cards
+    ArrayList<Card> originalOrder = new ArrayList<>(originalDeck.cards);
 
- // check that the deck has the same cards after shuffling
- t.checkExpect(originalDeck.cards.size(), originalOrder.size());
- t.checkExpect(originalDeck.cards.containsAll(originalOrder), true);
- t.checkExpect(originalOrder.containsAll(originalDeck.cards), true);
+    // shuffle the deck
+    originalDeck.shuffleDeck();
 
- // check that the order of the cards has changed
- boolean orderChanged = false;
- for (int i = 0; i < originalDeck.cards.size(); i++) {
-   if (!originalDeck.cards.get(i).equals(originalOrder.get(i))) {
-     orderChanged = true;
-     break;
-   }
- }
+    // check that the deck has the same cards after shuffling
+    t.checkExpect(originalDeck.cards.size(), originalOrder.size());
+    t.checkExpect(originalDeck.cards.containsAll(originalOrder), true);
+    t.checkExpect(originalOrder.containsAll(originalDeck.cards), true);
 
- t.checkExpect(orderChanged, true, "The shuffle method should change the card order.");
-}
+    // check that the order of the cards has changed
+    boolean orderChanged = false;
+    for (int i = 0; i < originalDeck.cards.size(); i++) {
+      if (!originalDeck.cards.get(i).equals(originalOrder.get(i))) {
+        orderChanged = true;
+        break;
+      }
+    }
 
+    t.checkExpect(orderChanged, true, "The shuffle method should change the card order.");
+  }
 
+  // test Board creation and card placement
+  void testCreateBoard(Tester t) {
+    initData();
 
+    // test the board size and card placement
+    t.checkExpect(testBoard.grid.size(), 4); 
+    for (ArrayList<Card> row : testBoard.grid) {
+      t.checkExpect(row.size(), 13); 
+    }
+
+    // ensure all cards are unique
+    ArrayList<Card> allCards = new ArrayList<>();
+    for (ArrayList<Card> row : testBoard.grid) {
+      allCards.addAll(row);
+    }
+    t.checkExpect(allCards.size(), 52); 
+  }
+
+  // test Board interactions
+  void testBoardInteractions(Tester t) {
+    initData();
+
+    // click on a card and check flipping
+    Card firstCard = testBoard.grid.get(0).get(0);
+    Posn firstCardPos = new Posn(80 + 0 * 80, 80 + 0 * 120);
+    t.checkExpect(firstCard.isFaceUp, false);
+
+    testBoard.onMouseClicked(firstCardPos);
+    t.checkExpect(firstCard.isFaceUp, true);
+
+    // click on a second card
+    Card secondCard = testBoard.grid.get(0).get(1);
+    Posn secondCardPos = new Posn(80 + 1 * 80, 80 + 0 * 120);
+    t.checkExpect(secondCard.isFaceUp, false);
+
+    testBoard.onMouseClicked(secondCardPos);
+    t.checkExpect(secondCard.isFaceUp, true);
+
+    // test matching cards
+    firstCard.isMatched = false;
+    secondCard.isMatched = false;
+    firstCard.rank = "A";
+    secondCard.rank = "A";
+    firstCard.suit = "♥";
+    secondCard.suit = "♦";
+
+    // simulate clicking both cards and check if they match
+    testBoard.onMouseClicked(firstCardPos);
+    testBoard.onMouseClicked(secondCardPos);
+
+    // test reset functionality
+    testBoard.onKeyEvent("r");
+    t.checkExpect(testBoard.grid.size(), 4); // New grid
+    t.checkExpect(testBoard.score, 26);
+    t.checkExpect(testBoard.firstCard, null);
+    t.checkExpect(testBoard.secondCard, null);
+    t.checkExpect(testBoard.gameWon, false);
+  }
 }
